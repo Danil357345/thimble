@@ -62,12 +62,12 @@ class CustomHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
 			self.send_header('Content-type', 'text/html')
 			self.end_headers()
 			self.wfile.write(b"Message saved successfully")
+			self.wfile.write(b'<meta http-equiv="refresh" content="1;url=/chat.html">')
 			# commit the message to the git repository using commit_files.py
 			subprocess.run(['python', 'commit_files.py', 'message'], check=True)
 			# update the GitHub repository using github_update.py
 			subprocess.run(['python', 'github_update.py'], check=True)
 			# redirect back to chat.html
-			self.wfile.write(b'<meta http-equiv="refresh" content="1;url=/chat.html">')
 
 		else:
 			self.send_error(400, "Bad Request: Missing author or message")
@@ -96,16 +96,16 @@ class CustomHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
 	def check_and_generate_report(self):
 		html_file = os.path.join(self.directory, 'log.html')
 		if not os.path.exists(html_file) or time.time() - os.path.getmtime(html_file) > 60:
-			print(f"{html_file} is older than 60 seconds or does not exist. Running generate_report.py...")
-			subprocess.run(['python', 'generate_report.py'], check=True)
+			print(f"{html_file} is older than 60 seconds or does not exist. Running log.html.py...")
+			subprocess.run(['python', 'log.html.py'], check=True)
 		else:
 			print(f"{html_file} is up-to-date.")
 
 	def check_and_generate_chat_html(self):
 		chat_html_file = os.path.join(self.directory, 'chat.html')
 		if not os.path.exists(chat_html_file) or time.time() - os.path.getmtime(chat_html_file) > 60:
-			print(f"{chat_html_file} is older than 60 seconds or does not exist. Running generate_chat_html.py...")
-			subprocess.run(['python', 'generate_chat_html.py'], check=True)
+			print(f"{chat_html_file} is older than 60 seconds or does not exist. Running chat.html.py...")
+			subprocess.run(['python', 'chat.html.py'], check=True)
 		else:
 			print(f"{chat_html_file} is up-to-date.")
 

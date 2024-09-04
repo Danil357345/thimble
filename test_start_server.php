@@ -43,7 +43,7 @@ $server_scripts = [
 	'ruby start_server.rb',
 	'php start_server.php',
 	'node start_server.js',
-	'bash start_server.sh'
+	'perl start_server.pl'
 ];
 
 foreach ($server_scripts as $script) {
@@ -65,3 +65,5 @@ foreach ($server_scripts as $script) {
 }
 
 echo "\nAll tests passed successfully!\n";
+
+# end of test_start_server.php

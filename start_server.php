@@ -35,8 +35,8 @@ class CustomHTTPRequestHandler {
 	private function checkAndGenerateReport() {
 		$htmlFile = $this->directory . '/log.html';
 		if (!file_exists($htmlFile) || (time() - filemtime($htmlFile)) > 60) {
-			echo "log.html is older than 60 seconds or does not exist. Running generate_report.py...\n";
-			exec('python generate_report.py');
+			echo "log.html is older than 60 seconds or does not exist. Running log.html.py...\n";
+			exec('python log.html.py');
 		} else {
 			echo "log.html is up-to-date.\n";
 		}
@@ -45,8 +45,8 @@ class CustomHTTPRequestHandler {
 	private function checkAndGenerateChatHtml() {
 		$chatHtmlFile = $this->directory . '/chat.html';
 		if (!file_exists($chatHtmlFile) || (time() - filemtime($chatHtmlFile)) > 60) {
-			echo "chat.html is older than 60 seconds or does not exist. Running generate_chat_html.py...\n";
-			exec('python generate_chat_html.py');
+			echo "chat.html is older than 60 seconds or does not exist. Running chat.html.py...\n";
+			exec('python chat.html.py');
 		} else {
 			echo "chat.html is up-to-date.\n";
 		}
@@ -66,9 +66,9 @@ class CustomHTTPRequestHandler {
 			$this->saveMessage($author, $message);
 			header('Content-Type: text/html');
 			echo "Message saved successfully";
+			echo '<meta http-equiv="refresh" content="1;url=/chat.html">';
 			exec('python commit_files.py message');
 			exec('python github_update.py');
-			echo '<meta http-equiv="refresh" content="1;url=/chat.html">';
 		} else {
 			header("HTTP/1.0 400 Bad Request");
 			echo "Bad Request: Missing author or message";
@@ -223,3 +223,5 @@ if (php_sapi_name() === 'cli-server') {
 	$handler = new CustomHTTPRequestHandler($directory);
 	$handler->handleRequest($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);
 }
+
+# end of start_server.php

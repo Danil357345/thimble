@@ -34,7 +34,7 @@ server_scripts = [
     'ruby start_server.rb',
     'php start_server.php',
     'node start_server.js',
-    'bash start_server.sh'
+    'perl start_server.pl',
 ]
 
 for script in server_scripts:
@@ -55,3 +55,5 @@ for script in server_scripts:
     print("Server stopped successfully")
 
 print("\nAll tests passed successfully!")
+
+# end of test_start_server.py

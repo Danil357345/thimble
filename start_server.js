@@ -67,7 +67,7 @@ class CustomHTTPRequestHandler {
       if (author && message) {
         this.saveMessage(author, message);
         this.res.writeHead(200, { 'Content-Type': 'text/html' });
-        this.res.end("Message saved successfully<meta http-equiv=\"refresh\" content=\"1;url=/chat.html\">");
+        this.res.end("Message saved successfully" + '<meta http-equiv="refresh" content="1;url=chat.html">');
 
         // Commit the message and update GitHub
         exec('python3 commit_files.py message', (error, stdout, stderr) => {
@@ -122,8 +122,8 @@ class CustomHTTPRequestHandler {
     const htmlFile = path.join(this.directory, 'log.html');
     fs.stat(htmlFile, (err, stats) => {
       if (err || Date.now() - stats.mtime.getTime() > 60000) {
-        console.log(`${htmlFile} is older than 60 seconds or does not exist. Running generate_report.js...`);
-        exec('python3 generate_report.py', (error, stdout, stderr) => {
+        console.log(`${htmlFile} is older than 60 seconds or does not exist. Running log.html.js...`);
+        exec('python3 log.html.py', (error, stdout, stderr) => {
           if (error) console.error(`Error: ${error.message}`);
           if (stderr) console.error(`Error: ${stderr}`);
           console.log(`Output: ${stdout}`);
@@ -138,8 +138,8 @@ class CustomHTTPRequestHandler {
     const chatHtmlFile = path.join(this.directory, 'chat.html');
     fs.stat(chatHtmlFile, (err, stats) => {
       if (err || Date.now() - stats.mtime.getTime() > 60000) {
-        console.log(`${chatHtmlFile} is older than 60 seconds or does not exist. Running generate_chat_html.py...`);
-        exec('python3 generate_chat_html.py', (error, stdout, stderr) => {
+        console.log(`${chatHtmlFile} is older than 60 seconds or does not exist. Running chat.html.py...`);
+        exec('python3 chat.html.py', (error, stdout, stderr) => {
           if (error) console.error(`Error: ${error.message}`);
           if (stderr) console.error(`Error: ${stderr}`);
           console.log(`Output: ${stdout}`);
@@ -292,3 +292,5 @@ async function main() {
 }
 
 main().catch(console.error);
+
+// end of start_server.js
